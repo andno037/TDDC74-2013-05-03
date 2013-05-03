@@ -10,12 +10,13 @@
   (define yellow 0)
   (define väglista #f)
   (define spelare #f)
-  (define tmp-färg #f)               
+  (define tmp-färg #f)
+  (define öppen #t)
   (super-new)
                  
   ;;Väg ska vara i listform med antingen en eller två vägar!
   
-  (define/public (start tväg tspelare) (reset) (set! väglista (filter (lambda (arg) (not (send arg köpt?))) tväg )) (set! spelare tspelare))
+  (define/public (start) (if öppen (begin (reset) (set! väglista (filter (lambda (arg) (not (send arg köpt?))) *current-väg* )) (set! spelare (send DM get-spelare)))))
   
   (define/public (betala färg)
     (set! tmp-färg färg)
@@ -30,6 +31,9 @@
       ((eq? färg 'red) (set! red (+ red 1)))
       ((eq? färg 'green) (set! green (+ green 1))))
       (if (not(null? väglista)) (for-each köp väglista) (begin(printf "nu är det fel") (reset))))
+              
+  (define/public (stäng)
+    (set! öppen #f))
                  
   (define/public (reset)
     (begin
@@ -43,19 +47,19 @@
       (set! brown 0)
       (set! yellow 0)
       (set! spelare #f)
-      (set! väglista #f)))
+      (set! väglista #f)
+      (set! öppen #t)))
   
   (define (köp väg )
     (if (and (tillräckligt? väg)(not( send väg köpt?)))
         (begin
         (send spelare köp-väg! väg)
-        (reset)
-        )))
+        (reset))))
                  ;;Lägg in discard
   
   (define (tillräckligt? väg)
     (if (eq? (send väg get-färg) 'grey)
-    (>=(+ (get-värde-av-färg (send väg get-färg)) rainbow) (send väg kostnad))
+    (>=(+ (get-värde-av-färg tmp-färg) (if (equal? tmp-färg 'rainbow ) 0 rainbow)) (send väg kostnad))
     (>=(+(get-värde-av-färg (send väg get-färg)) rainbow) (send väg kostnad))))
   
   (define (get-värde-av-färg tag)
@@ -70,6 +74,4 @@
       ((eq? tag 'brown)brown )
       ((eq? tag 'yellow)yellow)
       
-      (else 0)))
-  
-  ))
+      (else 0)))))

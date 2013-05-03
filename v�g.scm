@@ -1,10 +1,9 @@
 (define väg% (class object%
-               (init längd poäng dc stad1 stad2 färg p-lista)
+               (init längd dc stad1 stad2 färg p-lista)
                
                
                (define denna-dc dc)
                (define denna-längd längd)
-               (define denna-poäng poäng)
                (define länklista (list stad1 stad2))
                (define lista_punkter '())
                (define köpt #f)
@@ -14,6 +13,16 @@
                (send (cdr stad1) add-väg! this)
                (send (cdr stad2) add-väg! this)
                (super-new)
+               
+               (define denna-poäng 
+                 (cond
+                   ((= denna-längd 1) 1)
+                   ((= denna-längd 2) 2)
+                   ((= denna-längd 3) 4)
+                   ((= denna-längd 4) 7)
+                   ((= denna-längd 5) 10)
+                   ((= denna-längd 6) 13)
+                   ((= denna-längd 9) 27)))
                
                (define/public (get-lista-p)
                  lista-p
@@ -31,12 +40,13 @@
                
                (define/public (köpt?) köpt)
                
-               (define/public (set-köpt! bild spelare)
+               (define/public (set-köpt! spelare)
                  (if (not denna-ägare)
                  (begin (set! köpt #t)
                  (set! denna-ägare spelare)
                  (send denna-ägare add-poäng! denna-poäng)
-                 (måla-dig!))))
+                 (måla-dig!)
+                 (send DM nästa-tur))))
                
                (define/public (ägare) denna-ägare)
                
@@ -61,7 +71,7 @@
                  
                  (define tmp-brush (send dc get-brush))
                  
-                 ;;(send dc set-brush (send denna-ägare get-färge) 'solid) när spelare är klar
+                 (send dc set-brush (send denna-ägare get-färg) 'solid)
                  
                  (for-each (lambda (arg) (send dc draw-ellipse (- (car arg) 4) (- (cdr arg) 4) 8 8 )) lista-p )
                  

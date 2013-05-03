@@ -13,7 +13,8 @@
                     (send (cdr (assq tag lista-kort)) ta-kort!))
   
                    (define/public (master-ta-random!)
-                     (send (cdr (list-ref lista-kort (random 9))) ta-kort!))
+                     (send (cdr (list-ref lista-kort (random 9))) ta-kort!)
+                     (send kassa stäng))
                           
                    (define/public (get-antal-master) antal-kort)
                    

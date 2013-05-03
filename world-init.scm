@@ -14,7 +14,7 @@
 (load "kortlek.scm")
 (load "master-kortlek.rkt")
 (load "Game.rkt")
-
+(define DM #f)
 (define (install dc)
 
 
@@ -22,16 +22,11 @@
   (set! lista-städer (cons (cons tag en-stad) lista-städer))
   )
 
-;  (add-stad 'st (new stad% [namn "stockholm"] [dc dc] [x-led 677] [y-led 691] [bild1 *image2*] [bild2 *image3*] [ scale 0.07]))
-;  (add-stad 'no (new stad% [namn "norrköping"] [dc dc] [x-led 676] [y-led 761] [bild1 *image2*] [bild2 *image3*] [ scale 0.05]))
-;  (add-stad 'ör (new stad% [namn "örebro"] [dc dc] [x-led 586] [y-led 726] [bild1 *image2*] [bild2 *image3*] [ scale 0.05]))
-;  (add-stad 'os (new stad% [namn "oslo"] [dc dc] [x-led 495] [y-led 755] [bild1 *image2*] [bild2 *image3*] [ scale 0.07]))
-;  (add-stad 'gö (new stad% [namn "göteborg"] [dc dc] [x-led 568] [y-led 838] [bild1 *image2*] [bild2 *image3*] [ scale 0.05]))
-  
+  (set! DM (new game% (dc (send *my-canvas* get-dc)) (antal-spelare 2)))
   (my-load "städer2.scm")
   (my-load2 "vägar_nyp.rkt" )
   (for-each  (lambda (arg) (add-stad (car arg) (new stad% [namn (car arg)] [dc dc] [x-led (- (cadr arg) 272.5)] [y-led (caddr arg)] [bild1 *image2*] [bild2 *image3*] [ scale (cdddr arg)])) ) *plungt_lista*)
-  (for-each (lambda (arg) (add-väg (new väg% [längd (cddar arg)] [poäng 5] [dc dc] [stad1 (assq (caaar arg) lista-städer)] [stad2 (assq (cadar arg)lista-städer)]  [färg (cdaar arg)] [p-lista (cdr arg)]))) lista_att_spara)
+  (for-each (lambda (arg) (add-väg (new väg% [längd (cddar arg)] [dc dc] [stad1 (assq (caaar arg) lista-städer)] [stad2 (assq (cadar arg)lista-städer)]  [färg (cdaar arg)] [p-lista (cdr arg)]))) lista_att_spara)
   
   (display "ok")
   )
@@ -46,6 +41,7 @@
 (define lista_väg_punkter '())
 (define lista_att_spara '())
 (define currentvägnamn "Ingen väg vald.")
+
 
 
 (define *discard* (new master-kortlek%))
