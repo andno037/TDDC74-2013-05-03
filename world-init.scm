@@ -3,6 +3,7 @@
 (define *image2* (read-bitmap "grön_knapp.png" ))
 (define *image3* (read-bitmap "gul_knapp.png" ))
 (define lista-städer '())
+(load "Game.rkt")
 (define lista-vägar '())
 (define väg #f)
 (load "stad.scm")
@@ -13,8 +14,8 @@
 (load "kassa.rkt")
 (load "kortlek.scm")
 (load "master-kortlek.rkt")
-(load "Game.rkt")
-(define DM #f)
+
+
 (define (install dc)
 
 
@@ -22,7 +23,7 @@
   (set! lista-städer (cons (cons tag en-stad) lista-städer))
   )
 
-  (set! DM (new game% (dc (send *my-canvas* get-dc)) (antal-spelare 2)))
+ 
   (my-load "städer2.scm")
   (my-load2 "vägar_nyp.rkt" )
   (for-each  (lambda (arg) (add-stad (car arg) (new stad% [namn (car arg)] [dc dc] [x-led (- (cadr arg) 272.5)] [y-led (caddr arg)] [bild1 *image2*] [bild2 *image3*] [ scale (cdddr arg)])) ) *plungt_lista*)

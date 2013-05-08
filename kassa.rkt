@@ -53,6 +53,9 @@
   (define (köp väg )
     (if (and (tillräckligt? väg)(not( send väg köpt?)))
         (begin
+        (send spelare ta-kort! 'rainbow rainbow)
+        (set! rainbow 0)
+        (send spelare ta-kort! tmp-färg (get-värde-av-färg tmp-färg))
         (send spelare köp-väg! väg)
         (reset))))
                  ;;Lägg in discard
@@ -74,4 +77,7 @@
       ((eq? tag 'brown)brown )
       ((eq? tag 'yellow)yellow)
       
-      (else 0)))))
+      (else 0)))
+   
+   (define/public (get-antal-kort tag)
+     (get-värde-av-färg tag))))

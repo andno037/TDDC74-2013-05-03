@@ -1,7 +1,7 @@
 (require 2htdp/image)
 
 
-(load "world-init.scm")
+
 (define *my-bitmap* (make-bitmap  671 1000  #t))
 (define *bitmap-dc* (make-object bitmap-dc% *my-bitmap* ) )
 
@@ -17,8 +17,16 @@
 
 
 (define *my-window* (new frame%
-                         [width 1200] [height 1000] [label "En ram"]))
-(define *panel* (new panel% [parent *my-window*] ))
+                         [width 1200] [height 1000] [label "En ram"] ))
+(define *main-panel* (new horizontal-panel% [parent *my-window*] ))
+(load "spelar-panel.rkt")
+(load "kassa-panel.rkt")
+(define *vänster-sida* (new vertical-panel% [parent *main-panel*]))
+(define *panel* (new panel% [parent *main-panel*] ))
+(define *höger-sida* (new vertical-panel% [parent *main-panel*]))
+(define *spelar-panel* (new knapp-panel% [parentin *höger-sida*]))
+(define *kassa-panel* (new kassa-panel% [parentin *höger-sida*]))
+
 ;;(define *msg* (new message% [parent *panel*] [label *my-bitmap*] ))
 
 ;;--------- in för målning
@@ -76,8 +84,10 @@
 (define (mouse-fn event)
   ;;(printf "hej")
   (if (send event button-down? 'left)
-      (begin(printf "punkt < x: ~a , y: ~a  >      ~n" (send event get-x)(send event get-y))
-            
+      
+      
+      (begin(printf "punkt < x: ~a , y: ~a  >      ~n" (send event get-x)(send event get-y)) 
+            (send *spelar-panel* uppdatera)
             (for-each (lambda (arg) 
                         
                         (if(send (cdr arg) träffad (send event get-x) (send event get-y) )

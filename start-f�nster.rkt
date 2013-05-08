@@ -1,3 +1,4 @@
+
 (define start-fönster (new frame% [width 500] [height 500] [label "start fönster"] ))
 (define knapp1 #f)
 (define knapp2 #f)
@@ -5,6 +6,7 @@
 (define text1 #f)
 (define text2 #f)
 (define text3 #f)
+(define DM #f)
 
 (define färger (list (cons "Röd" "Red") (cons "Blå" "Blue") (cons "Grön" "Green") (cons "Gul" "Yellow") (cons "Rosa" "Pink")))
 
@@ -70,12 +72,22 @@
     (set! knapp3 (new färgad-knapp% [parent två.3]
          [label "Färg"]
          [callback (lambda (button event) (send knapp3 klickad))]))
+;; procedur för att skapa en lista med alla namn och färger
+(define (get-spelare-lista-med-namn)
+  (filter (lambda (arg) (not(void? arg))) (list (if (send knapp1 get-färg)(cons (send text1 get-value) (send knapp1 get-färg)))
+        (if (send knapp2 get-färg)(cons (send text2 get-value) (send knapp2 get-färg)))
+        (if (send knapp3 get-färg)(cons (send text3 get-value) (send knapp3 get-färg))))))    
     
- 
-  
-  (new button% [parent tre]
+    
+    
+    ;;------ start kanpp    
+   (new button% [parent tre]
        [label "Start"]
-       [callback (lambda (button event) (display "Hej"))])))
+       [callback (lambda (button event) (display "Hej")
+                   (load "fönster.scm") 
+                   (set! DM (new game% (dc (send *my-canvas* get-dc)) (spelare-lista-med-namn (get-spelare-lista-med-namn)) ))
+                   
+                   (send start-fönster show #f))])))
 
 
 
