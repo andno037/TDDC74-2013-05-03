@@ -20,6 +20,7 @@
                 ; field
                 
                 (super-new)                ; superclass initialization
+                (set! uppdateringslista (cons this uppdateringslista))
                 ;;ger ut namn som en string
                 (define/public (get-namn)
                   my-namn)
@@ -59,12 +60,13 @@
                 ;; om staden har blivit vad kommer litte sker att hända
                 (define/public (set-vald! in)
                   (set! vald in)
+                  )
+                (define/public (uppdatera-dig!)
                   (if vald
-                      (begin
-                      (send DM rita-currentväg)
-                      (måla-dig! my-bild1))
+                      (måla-dig! my-bild1)
                       (måla-dig! my-bild2)
-                      ))
+                      )
+                  )
                 ;; staden tar hand om sin egna ut målning till skärmen
                 (define (måla-dig! bild-tmp)
                   (rita_med_scale bild-tmp my-scale my-scale x-led y-led my-dc))

@@ -34,6 +34,7 @@
               
   (define/public (stäng)
     (set! öppen #f))
+  (define/public (öppen?) öppen)
                  
   (define/public (reset)
     (begin

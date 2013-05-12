@@ -3,7 +3,7 @@
                 (init-field dc spelare-lista-med-namn)
                 (define vägtext-x 100)
                 (define vägtext-y 100)
-                
+                (define tagna-kort 0)
                 (define current-spelare 0)
                 
                 (super-new)  
@@ -18,6 +18,12 @@
                 
                 (define/public (get-spelare)
                   (list-ref spelarlista current-spelare))
+                ;;räkna när sperlaren tar ett kort
+                (define/public (tog-kort)
+                  (if (= tagna-kort 1)
+                      (begin(set! tagna-kort 0)(nästa-tur))
+                      (begin (set! tagna-kort (+ 1 tagna-kort))(send kassa stäng))))
+                
                 
                 (define/public (nästa-tur)
                   (set! current-spelare (remainder (+ 1 current-spelare) (length spelarlista)))

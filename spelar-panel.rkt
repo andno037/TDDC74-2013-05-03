@@ -1,4 +1,4 @@
-(define knapp-panel% (class object%
+(define spelar-panel% (class object%
                        (init-field parentin)
                        (define panel #f )
                        (define horizontal1.2u #f )
@@ -81,7 +81,7 @@
                                 [min-height 50]
                                  [callback (lambda (button event) 
                                             (if (< (send kassa get-antal-kort 'yellow )  (send (send DM get-spelare) get-antal-kort 'yellow))
-                                                (send kassa betala 'purple)))])
+                                                (send kassa betala 'yellow)))])
                            (new button% [parent horizontal2]
                                 [label (read-bitmap "green.png" )]
                                  [callback (lambda (button event) 
@@ -116,7 +116,7 @@
                          (define my-font (make-object font% 20 'default) )
                          (define bredd 150)
                          ;;visa namn
-                           (set! namn (new message% [font my-font][parent panel] [label (send (send dm get-spelare) get-namn)]) )
+                           (set! namn (new message% [min-width bredd] [font my-font][parent panel] [label (send (send dm get-spelare) get-namn)]) )
                            ;;medelanden
                            
                            (set! purple (new message% [min-width bredd][font my-font][parent horizontal1.2u] [label (number->string(send (send dm get-spelare) get-antal-kort 'purple))]))
