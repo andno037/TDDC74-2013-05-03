@@ -84,7 +84,8 @@
    (new button% [parent tre]
        [label "Start"]
        [callback (lambda (button event) (display "Hej")
-                   (load "fönster.scm") 
+                   (load "fönster.scm")
+                   ;(play-sound "bakgrundsmusik/gustavus.wav" #t)
                    (set! DM (new game% (dc (send *my-canvas* get-dc)) (spelare-lista-med-namn (get-spelare-lista-med-namn)) ))
                    
                    (send start-fönster show #f))])))
