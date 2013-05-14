@@ -16,6 +16,7 @@
                                 [callback (lambda (button event) 
                                             (send kassa start)
                                             (send avbryt enable #t)
+                                            (send *spelar-panel* set-buttons-sant)
                                             )]))
                            (set! avbryt (new button% [parent horizontal1]
                                 [label (read-bitmap "avbryt.png" )]
@@ -26,10 +27,11 @@
                          
                          (define/public (set-köp-t)
                            (if (send kassa öppen?)
-                           (send köp enable #t)))
+                           (begin(send köp enable #t))))
                          (define/public (set-köp-f)
                            (send köp enable #f)
                            (send avbryt enable #f)
+                           (send *spelar-panel* set-buttons-falsk)
                            )
                          
                          

@@ -62,7 +62,7 @@
                                             (if (> (send *deck* get-antal-master  )  0)
                                                 (begin (send (send DM get-spelare) add-kort! (send *deck* master-ta-random!)) 
                                                        (send *spelar-panel* uppdatera)(send dm tog-kort))
-                                                (printf "du det finns för få kort: ~a" (send bord get-antal-kort 'purple ) )))])
+                                                (printf "du det finns för få kort: ~a" (send *deck* get-antal-master) )))])
                            (new button% [parent horizontal]
                                 [label "uppdrag"]
                                 [min-width 50]

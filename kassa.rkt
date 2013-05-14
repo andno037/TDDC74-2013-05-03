@@ -49,14 +49,16 @@
       (set! yellow 0)
       (set! spelare #f)
       (set! väglista #f)
-      (set! öppen #t)))
+      (set! öppen #t)
+      (send *spelar-panel* set-buttons-falsk)
+      ))
   
   (define (köp väg )
     (if (and (tillräckligt? väg)(not( send väg köpt?)))
         (begin
-        (send spelare ta-kort! 'rainbow rainbow)
+        (send *discard* master-add-flera-kort! (send spelare ta-kort! 'rainbow rainbow))
         (set! rainbow 0)
-        (send spelare ta-kort! tmp-färg (get-värde-av-färg tmp-färg))
+        (send *discard* master-add-flera-kort! (send spelare ta-kort! tmp-färg (get-värde-av-färg tmp-färg)))
         (send spelare köp-väg! väg)
         (reset))))
                  ;;Lägg in discard
